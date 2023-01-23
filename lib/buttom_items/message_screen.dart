@@ -120,44 +120,49 @@ class ImageAvater extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned(
-          bottom: 14,
-          right: 20,
-          child: Container(
-            height: 10,
-            width: 10,
-            decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(15)),
-          ),
-        ),
-        // ignore: prefer_const_constructors
         Padding(
           padding: const EdgeInsets.only(right: 20),
           child: Container(
-            padding: const EdgeInsets.all(.2),
             height: 76,
             width: 76,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              gradient: const LinearGradient(colors: [
-                Colors.red,
-                Colors.white38,
-                Colors.pink,
-              ]),
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.red,
+                    Colors.red,
+                    Colors.red,
+                    Colors.red,
+                    Colors.black45,
+                    Colors.pink,
+                    Colors.pink,
+                    Colors.pink,
+                    Colors.pink
+                  ]),
+              border:
+                  Border.all(width: 3, color: Colors.white.withOpacity(0.5)),
             ),
             child: Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const CircleAvatar(
-                radius: 29,
-                backgroundImage: NetworkImage(
-                    "https://i.pinimg.com/736x/f9/38/f4/f938f45fd061e612e68bdf25a282b641--suit-men-the-suits.jpg"),
+              height: 69,
+              width: 69,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                      "https://th.bing.com/th/id/OIP.EZgDTtFqxq0ADDVhvyct3QHaHZ?pid=ImgDet&rs=1"),
+                ),
               ),
             ),
+          ),
+        ),
+        const Positioned(
+          bottom: 14,
+          right: 20,
+          child: CircleAvatar(
+            radius: 5,
+            backgroundColor: Colors.blue,
           ),
         ),
       ],
