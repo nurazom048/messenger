@@ -37,7 +37,6 @@ class _MessageScreenState extends State<MessageScreen> {
               children: [
                 const Spacer(flex: 2),
                 Boldtext("Message"),
-                const Spacer(flex: 2),
                 Boldtext(" 48 New ", color: Colors.blue),
                 const Spacer(flex: 70),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
@@ -51,11 +50,11 @@ class _MessageScreenState extends State<MessageScreen> {
               child: TextField(
                   maxLines: 1,
                   decoration: InputDecoration(
+                      hintText: "Search Anything",
                       suffixIcon: const Padding(
                         padding: EdgeInsets.only(right: 8.0),
                         child: Icon(Icons.search),
                       ),
-                      prefixText: "Search Anything",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30)))),
             ),
@@ -102,7 +101,7 @@ class ChatBox extends StatelessWidget {
                 backgroundColor: Colors.red.shade100,
                 child: Boldtext("3"),
               ),
-              const Text("19 SEP")
+              const Text("\n 19 Sept")
             ],
           ),
           const Spacer(flex: 2),
