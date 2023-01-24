@@ -1,10 +1,9 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:messerger/buttom_items/call_screen.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
 import 'package:intl/intl.dart';
-
-enum MessageStatus { seen, unseen, delivered, sent }
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -245,6 +244,7 @@ class ChatBox extends StatelessWidget {
                 children: [
                   Boldtext(name),
                   Text(last_message),
+                  Text(staus.runtimeType.toString()),
                 ],
               ),
               const Spacer(flex: 20),
