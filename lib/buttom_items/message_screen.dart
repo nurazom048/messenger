@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
@@ -63,14 +63,14 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF6F6F6),
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             //..... to story section
             Padding(
               padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 18.0, left: 4, right: 4),
+                  top: 8.0, bottom: 13.0, left: 35, right: 4),
               child: SizedBox(
                 height: 90,
                 width: MediaQuery.of(context).size.width,
@@ -93,48 +93,68 @@ class _MessageScreenState extends State<MessageScreen> {
               ),
             ),
             //.... add message section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(flex: 2),
-                Boldtext("Message"),
-                Boldtext(" 48 New ", color: Colors.blue),
-                const Spacer(flex: 70),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-                const Spacer(flex: 2),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+              child: Row(
+                children: [
+                  const Spacer(flex: 2),
+                  Boldtext("Message"),
+                  Boldtext(" 48 New ", color: Colors.blue),
+                  const Spacer(flex: 70),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+                  const Spacer(flex: 2),
+                ],
+              ),
             ),
-            const SizedBox(height: 30),
-            //... search bar
-            Container(
-              width: MediaQuery.of(context).size.width - 20,
-              child: TextField(
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                      hintText: "Search Anything",
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(Icons.search),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30)))),
-            ),
-            const SizedBox(height: 30),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                itemCount: chats.length,
-                itemBuilder: ((context, index) => ChatBox(
-                      name: chats[index]["name"],
-                      profile_picture: chats[index]["profile_pictiure"],
-                      has_stroty: chats[index]["has_stroty"],
-                      last_seen: chats[index]["last_Seen"],
-                      online_stutes: chats[index]["online_stutes"],
-                      last_message: chats[index]["last_message"],
-                      staus: chats[index]["staus"],
-                      unseen_messages: chats[index]["unseen_messages"],
-                    )),
+
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 23.0,
+                right: 23.0,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  //... searchbar
+                  Container(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: MediaQuery.of(context).size.width - 20,
+                    child: TextField(
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(
+                              left: 8.0, right: 8, top: 8),
+                          hintText: "Search Anything",
+                          suffixIcon: const Padding(
+                            padding: EdgeInsets.only(right: 9.0),
+                            child: Icon(Icons.search),
+                          ),
+                          border: InputBorder.none),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      itemCount: chats.length,
+                      itemBuilder: ((context, index) => ChatBox(
+                            name: chats[index]["name"],
+                            profile_picture: chats[index]["profile_pictiure"],
+                            has_stroty: chats[index]["has_stroty"],
+                            last_seen: chats[index]["last_Seen"],
+                            online_stutes: chats[index]["online_stutes"],
+                            last_message: chats[index]["last_message"],
+                            staus: chats[index]["staus"],
+                            unseen_messages: chats[index]["unseen_messages"],
+                          )),
+                    ),
+                  )
+                ],
               ),
             )
           ],
@@ -144,14 +164,17 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 }
 
+//..
 class ChatBox extends StatelessWidget {
   String name, last_message, online_stutes, profile_picture;
   bool has_stroty;
+
   MessageStatus staus;
   DateTime last_seen;
   int unseen_messages;
 
   ChatBox({
+    super.key,
     required this.name,
     required this.last_message,
     required this.has_stroty,
@@ -166,38 +189,48 @@ class ChatBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 3, right: 4),
-      child: Row(
+      child: Column(
         children: [
-          const Spacer(flex: 2),
-          //...
-          ImageAvater(
-              profilepicture: profile_picture,
-              online_stutes: online_stutes,
-              has_story: has_stroty),
-          //... name and last message
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Boldtext(name),
-              Text(last_message),
+              const Spacer(flex: 2),
+              //...
+              ImageAvater(
+                  profilepicture: profile_picture,
+                  online_stutes: online_stutes,
+                  has_story: has_stroty),
+              //... name and last message
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Boldtext(name),
+                  Text(last_message),
+                ],
+              ),
+              const Spacer(flex: 20),
+              // ... unseen messages and date time
+              Column(
+                children: [
+                  staus.name == "delivered"
+                      ? const Icon(Icons.check)
+                      : CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.red.shade100,
+                          child: Boldtext(unseen_messages.toString()),
+                        ),
+                  const SizedBox(height: 4),
+                  Text(DateFormat.yMMMEd().format(last_seen))
+                ],
+              ),
+              const Spacer(flex: 2),
             ],
           ),
-          const Spacer(flex: 20),
-          // ... unseen messages and date time
-          Column(
-            children: [
-              staus.name == "delivered"
-                  ? const Icon(Icons.check)
-                  : CircleAvatar(
-                      radius: 16,
-                      backgroundColor: Colors.red.shade100,
-                      child: Boldtext(unseen_messages.toString()),
-                    ),
-              const SizedBox(height: 4),
-              Text(DateFormat.yMMMEd().format(last_seen))
-            ],
-          ),
-          const Spacer(flex: 2),
+          Divider(
+            height: 26,
+            thickness: .8,
+            endIndent: 25,
+            indent: 25,
+          )
         ],
       ),
     );
