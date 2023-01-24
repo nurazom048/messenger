@@ -59,6 +59,51 @@ class _MessageScreenState extends State<MessageScreen> {
       "last_Seen": DateTime(2022, 09, 03, 00, 00),
       "has_stroty": false,
     },
+    //
+    {
+      "name": "Nur",
+      "profile_pictiure":
+          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
+      "last_message": "hello",
+      "online_stutes": "online",
+      "unseen_messages": 2,
+      "staus": MessageStatus.seen,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "abdul",
+      "profile_pictiure":
+          "https://thumbs.dreamstime.com/b/handsome-man-portrait-16109015.jpg",
+      "last_message": "busy now",
+      "online_stutes": "online",
+      "unseen_messages": 3,
+      "staus": MessageStatus.delivered,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "mazid",
+      "profile_pictiure":
+          "https://th.bing.com/th/id/R.0569fe35898c34726564915930c54c26?rik=LEvOfSwdzW13PA&pid=ImgRaw&r=0",
+      "last_message": "ok i will try",
+      "online_stutes": "offline",
+      "unseen_messages": 3,
+      "staus": MessageStatus.seen,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "sabbir",
+      "profile_pictiure":
+          "https://s-s.huffpost.com/contributors/pax-ahimsa-gethen/headshot.jpg",
+      "last_message": "call me ",
+      "online_stutes": "offline",
+      "unseen_messages": 3,
+      "staus": MessageStatus.delivered,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": false,
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -68,29 +113,26 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Column(
           children: [
             //..... to story section
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 13.0, left: 35, right: 4),
-              child: SizedBox(
-                height: 90,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    //... only show acctive acccount
-                    itemCount: chats
+            Container(
+              margin: const EdgeInsets.only(top: 8.0, bottom: 13.0, left: 35),
+              height: 90,
+              width: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  //... only show acctive acccount
+                  itemCount: chats
+                      .where((item) => item["online_stutes"] == "online")
+                      .length,
+                  itemBuilder: (context, index) {
+                    final onlineChat = chats
                         .where((item) => item["online_stutes"] == "online")
-                        .length,
-                    itemBuilder: (context, index) {
-                      final onlineChat = chats
-                          .where((item) => item["online_stutes"] == "online")
-                          .toList()[index];
-                      return ImageAvater(
-                        profilepicture: onlineChat["profile_pictiure"],
-                        has_story: onlineChat["has_stroty"],
-                        online_stutes: onlineChat["online_stutes"],
-                      );
-                    }),
-              ),
+                        .toList()[index];
+                    return ImageAvater(
+                      profilepicture: onlineChat["profile_pictiure"],
+                      has_story: onlineChat["has_stroty"],
+                      online_stutes: onlineChat["online_stutes"],
+                    );
+                  }),
             ),
             //.... add message section
             Padding(
@@ -108,20 +150,16 @@ class _MessageScreenState extends State<MessageScreen> {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(
-                left: 23.0,
-                right: 23.0,
-              ),
+              padding: const EdgeInsets.only(left: 23.0, right: 23.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 10),
                   //... searchbar
                   Container(
                     padding: const EdgeInsets.only(top: 5.0),
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
                     width: MediaQuery.of(context).size.width - 20,
                     child: TextField(
                       maxLines: 1,
@@ -136,11 +174,13 @@ class _MessageScreenState extends State<MessageScreen> {
                           border: InputBorder.none),
                     ),
                   ),
-                  SizedBox(height: 20),
+
                   Container(
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height - 30,
                     width: MediaQuery.of(context).size.width,
                     child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
                       itemCount: chats.length,
                       itemBuilder: ((context, index) => ChatBox(
                             name: chats[index]["name"],
@@ -251,42 +291,36 @@ class ImageAvater extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: Container(
-            height: 76,
-            width: 76,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.red,
-                    Colors.red,
-                    Colors.red,
-                    Colors.red,
-                    Colors.black45,
-                    Colors.pink,
-                    Colors.pink,
-                    Colors.pink,
-                    Colors.pink
-                  ]),
-              //...
-              border: Border.all(
-                  width: has_story == true ? 3 : 0,
-                  color: Colors.white.withOpacity(0.5)),
-            ),
-            child: Container(
-              height: 69,
-              width: 69,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(profilepicture),
-                ),
-              ),
-            ),
+        Container(
+          margin: const EdgeInsets.only(right: 20),
+          height: 76,
+          width: 76,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.red,
+                  Colors.red,
+                  Colors.red,
+                  Colors.red,
+                  Colors.black45,
+                  Colors.pink,
+                  Colors.pink,
+                  Colors.pink,
+                  Colors.pink
+                ]),
+            //...
+            border: Border.all(
+                width: has_story == true ? 2 : 0,
+                color: Colors.white.withOpacity(0.5)),
+          ),
+          child: CircleAvatar(
+            radius: 38,
+            backgroundColor: Colors.white,
+            child: CircleAvatar(
+                radius: 34.5, backgroundImage: NetworkImage(profilepicture)),
           ),
         ),
         online_stutes == "online"
@@ -294,8 +328,12 @@ class ImageAvater extends StatelessWidget {
                 bottom: 14,
                 right: 20,
                 child: CircleAvatar(
-                  radius: 5,
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.white,
+                  radius: 7,
+                  child: CircleAvatar(
+                    radius: 5,
+                    backgroundColor: Colors.blue,
+                  ),
                 ),
               )
             : Container(),
