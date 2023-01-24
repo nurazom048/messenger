@@ -45,6 +45,7 @@ class _ButomNevBarState extends State<ButomNevBar> {
           ButtomIcon(
             icon: const Icon(Icons.call),
             isactive: currentindex == 0,
+            itemposition: "start",
             onTap: () {
               setState(() {
                 currentindex = 0;
@@ -61,6 +62,7 @@ class _ButomNevBarState extends State<ButomNevBar> {
             },
           ),
           ButtomIcon(
+            itemposition: "end",
             icon: const CircleAvatar(
               radius: 18,
               backgroundImage: NetworkImage(
@@ -83,7 +85,13 @@ class ButtomIcon extends StatelessWidget {
   Widget icon;
   bool isactive;
   dynamic onTap;
-  ButtomIcon({Key? key, required this.icon, required this.isactive, this.onTap})
+  String? itemposition;
+  ButtomIcon(
+      {Key? key,
+      this.itemposition,
+      required this.icon,
+      required this.isactive,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -93,8 +101,15 @@ class ButtomIcon extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        color: Colors.black12,
-        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: itemposition == "start"
+              ? const BorderRadius.only(topLeft: Radius.circular(27))
+              : itemposition == "end"
+                  ? const BorderRadius.only(topRight: Radius.circular(27))
+                  : BorderRadius.zero,
+        ),
+        height: 70,
         width: size.width / 3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
