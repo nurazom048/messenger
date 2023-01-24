@@ -1,7 +1,10 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
+import 'package:intl/intl.dart';
+
+enum MessageStatus { seen, unseen, delivered, sent }
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -11,6 +14,52 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+  List<Map<String, dynamic>> chats = [
+    {
+      "name": "Nur",
+      "profile_pictiure":
+          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
+      "last_message": "hello",
+      "online_stutes": "online",
+      "unseen_messages": 2,
+      "staus": MessageStatus.seen,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "abdul",
+      "profile_pictiure":
+          "https://thumbs.dreamstime.com/b/handsome-man-portrait-16109015.jpg",
+      "last_message": "busy now",
+      "online_stutes": "online",
+      "unseen_messages": 3,
+      "staus": MessageStatus.delivered,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "mazid",
+      "profile_pictiure":
+          "https://th.bing.com/th/id/R.0569fe35898c34726564915930c54c26?rik=LEvOfSwdzW13PA&pid=ImgRaw&r=0",
+      "last_message": "ok i will try",
+      "online_stutes": "offline",
+      "unseen_messages": 3,
+      "staus": MessageStatus.seen,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": true,
+    },
+    {
+      "name": "sabbir",
+      "profile_pictiure":
+          "https://s-s.huffpost.com/contributors/pax-ahimsa-gethen/headshot.jpg",
+      "last_message": "call me ",
+      "online_stutes": "offline",
+      "unseen_messages": 3,
+      "staus": MessageStatus.delivered,
+      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+      "has_stroty": false,
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +72,25 @@ class _MessageScreenState extends State<MessageScreen> {
               padding: const EdgeInsets.only(
                   top: 8.0, bottom: 18.0, left: 4, right: 4),
               child: SizedBox(
-                  height: 90,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
+                height: 90,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, index) => const ImageAvater(),
-                  )),
+                    //... only show acctive acccount
+                    itemCount: chats
+                        .where((item) => item["online_stutes"] == "online")
+                        .length,
+                    itemBuilder: (context, index) {
+                      final onlineChat = chats
+                          .where((item) => item["online_stutes"] == "online")
+                          .toList()[index];
+                      return ImageAvater(
+                        profilepicture: onlineChat["profile_pictiure"],
+                        has_story: onlineChat["has_stroty"],
+                        online_stutes: onlineChat["online_stutes"],
+                      );
+                    }),
+              ),
             ),
             //.... add message section
             Row(
@@ -63,8 +124,18 @@ class _MessageScreenState extends State<MessageScreen> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                  itemCount: 6,
-                  itemBuilder: ((context, index) => const ChatBox())),
+                itemCount: chats.length,
+                itemBuilder: ((context, index) => ChatBox(
+                      name: chats[index]["name"],
+                      profile_picture: chats[index]["profile_pictiure"],
+                      has_stroty: chats[index]["has_stroty"],
+                      last_seen: chats[index]["last_Seen"],
+                      online_stutes: chats[index]["online_stutes"],
+                      last_message: chats[index]["last_message"],
+                      staus: chats[index]["staus"],
+                      unseen_messages: chats[index]["unseen_messages"],
+                    )),
+              ),
             )
           ],
         ),
@@ -74,9 +145,22 @@ class _MessageScreenState extends State<MessageScreen> {
 }
 
 class ChatBox extends StatelessWidget {
-  const ChatBox({
-    Key? key,
-  }) : super(key: key);
+  String name, last_message, online_stutes, profile_picture;
+  bool has_stroty;
+  MessageStatus staus;
+  DateTime last_seen;
+  int unseen_messages;
+
+  ChatBox({
+    required this.name,
+    required this.last_message,
+    required this.has_stroty,
+    required this.online_stutes,
+    required this.last_seen,
+    required this.staus,
+    required this.unseen_messages,
+    required this.profile_picture,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -85,23 +169,32 @@ class ChatBox extends StatelessWidget {
       child: Row(
         children: [
           const Spacer(flex: 2),
-          const ImageAvater(),
+          //...
+          ImageAvater(
+              profilepicture: profile_picture,
+              online_stutes: online_stutes,
+              has_story: has_stroty),
+          //... name and last message
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Boldtext("Nime Sorker"),
-              const Text("HAllo"),
+              Boldtext(name),
+              Text(last_message),
             ],
           ),
           const Spacer(flex: 20),
+          // ... unseen messages and date time
           Column(
             children: [
-              CircleAvatar(
-                radius: 16,
-                backgroundColor: Colors.red.shade100,
-                child: Boldtext("3"),
-              ),
-              const Text("\n 19 Sept")
+              staus.name == "delivered"
+                  ? const Icon(Icons.check)
+                  : CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.red.shade100,
+                      child: Boldtext(unseen_messages.toString()),
+                    ),
+              const SizedBox(height: 4),
+              Text(DateFormat.yMMMEd().format(last_seen))
             ],
           ),
           const Spacer(flex: 2),
@@ -112,7 +205,12 @@ class ChatBox extends StatelessWidget {
 }
 
 class ImageAvater extends StatelessWidget {
-  const ImageAvater({
+  String profilepicture, online_stutes;
+  bool has_story;
+  ImageAvater({
+    required this.profilepicture,
+    required this.online_stutes,
+    required this.has_story,
     Key? key,
   }) : super(key: key);
 
@@ -141,30 +239,33 @@ class ImageAvater extends StatelessWidget {
                     Colors.pink,
                     Colors.pink
                   ]),
-              border:
-                  Border.all(width: 3, color: Colors.white.withOpacity(0.5)),
+              //...
+              border: Border.all(
+                  width: has_story == true ? 3 : 0,
+                  color: Colors.white.withOpacity(0.5)),
             ),
             child: Container(
               height: 69,
               width: 69,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: NetworkImage(
-                      "https://th.bing.com/th/id/OIP.EZgDTtFqxq0ADDVhvyct3QHaHZ?pid=ImgDet&rs=1"),
+                  image: NetworkImage(profilepicture),
                 ),
               ),
             ),
           ),
         ),
-        const Positioned(
-          bottom: 14,
-          right: 20,
-          child: CircleAvatar(
-            radius: 5,
-            backgroundColor: Colors.blue,
-          ),
-        ),
+        online_stutes == "online"
+            ? const Positioned(
+                bottom: 14,
+                right: 20,
+                child: CircleAvatar(
+                  radius: 5,
+                  backgroundColor: Colors.blue,
+                ),
+              )
+            : Container(),
       ],
     );
   }
