@@ -147,7 +147,7 @@ class _CallScreenState extends State<CallScreen> {
               //.... list of All calls
 
               Container(
-                margin: const EdgeInsets.only(top: 18.0, left: 19, right: 19),
+                margin: const EdgeInsets.only(top: 18.0, left: 8, right: 8),
                 height: MediaQuery.of(context).size.height - 30,
                 width: MediaQuery.of(context).size.width,
                 child: currentindex == 0
