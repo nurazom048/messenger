@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:messerger/buttom_items/call_screen.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
 import 'package:intl/intl.dart';
+import 'package:messerger/widgets/widgets.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -265,12 +266,7 @@ class ChatBox extends StatelessWidget {
               const Spacer(flex: 2),
             ],
           ),
-          Divider(
-            height: 26,
-            thickness: .8,
-            endIndent: 25,
-            indent: 25,
-          )
+          MyDivider()
         ],
       ),
     );
