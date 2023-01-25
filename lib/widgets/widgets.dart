@@ -180,3 +180,55 @@ class SearchBar extends StatelessWidget {
     );
   }
 }
+
+class AppbarCustom extends StatelessWidget {
+  String profile_pictiure, title, subtitle;
+  AppbarCustom({
+    Key? key,
+    required this.profile_pictiure,
+    required this.title,
+    required this.subtitle,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      padding: const EdgeInsets.all(8.0),
+      width: MediaQuery.of(context).size.width,
+      color: Colors.black12,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Spacer(flex: 3),
+          CircleAvatar(
+              radius: 30, backgroundImage: NetworkImage(profile_pictiure)),
+          //
+          const Spacer(flex: 1),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.black),
+              ),
+              Text(subtitle,
+                  style: const TextStyle(color: Colors.black54, fontSize: 12))
+            ],
+          ),
+
+          const Spacer(flex: 30),
+          const Icon(Icons.more_vert, size: 30),
+          const Spacer(flex: 3),
+
+          //
+        ],
+      ),
+    );
+  }
+}

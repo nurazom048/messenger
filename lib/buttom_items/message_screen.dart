@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:messerger/buttom_items/Chat_details.dart';
 import 'package:messerger/buttom_items/call_screen.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
 import 'package:intl/intl.dart';
@@ -155,7 +156,7 @@ class _MessageScreenState extends State<MessageScreen> {
                 children: [
                   //... searchbar
                   SearchBar(),
-
+//....chatbox...
                   Container(
                     height: MediaQuery.of(context).size.height - 30,
                     width: MediaQuery.of(context).size.width,
@@ -172,6 +173,19 @@ class _MessageScreenState extends State<MessageScreen> {
                             last_message: chats[index]["last_message"],
                             staus: chats[index]["staus"],
                             unseen_messages: chats[index]["unseen_messages"],
+
+                            //
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatDetails(
+                                        profile_pictiure: chats[index]
+                                            ["profile_pictiure"],
+                                        name: chats[index]["name"],
+                                        online_stutes: chats[index]
+                                            ["online_stutes"],
+                                      )),
+                            ),
                           )),
                     ),
                   )
@@ -189,7 +203,7 @@ class _MessageScreenState extends State<MessageScreen> {
 class ChatBox extends StatelessWidget {
   String name, last_message, online_stutes, profile_picture;
   bool has_stroty;
-
+  dynamic onTap;
   MessageStatus staus;
   DateTime last_seen;
   int unseen_messages;
@@ -204,6 +218,8 @@ class ChatBox extends StatelessWidget {
     required this.staus,
     required this.unseen_messages,
     required this.profile_picture,
+    //
+    this.onTap,
   });
 
   @override
@@ -212,40 +228,43 @@ class ChatBox extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 3, right: 4),
       child: Column(
         children: [
-          Row(
-            children: [
-              const Spacer(flex: 2),
-              //...
-              ImageAvater(
-                  profilepicture: profile_picture,
-                  online_stutes: online_stutes,
-                  has_story: has_stroty),
-              //... name and last message
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Boldtext(name),
-                  Text(last_message),
-                  Text(staus.runtimeType.toString()),
-                ],
-              ),
-              const Spacer(flex: 20),
-              // ... unseen messages and date time
-              Column(
-                children: [
-                  staus.name == "delivered"
-                      ? const Icon(Icons.check)
-                      : CircleAvatar(
-                          radius: 16,
-                          backgroundColor: Colors.red.shade100,
-                          child: Boldtext(unseen_messages.toString()),
-                        ),
-                  const SizedBox(height: 4),
-                  Text(DateFormat.yMMMEd().format(last_seen))
-                ],
-              ),
-              const Spacer(flex: 2),
-            ],
+          InkWell(
+            onTap: onTap,
+            child: Row(
+              children: [
+                const Spacer(flex: 2),
+                //...
+                ImageAvater(
+                    profilepicture: profile_picture,
+                    online_stutes: online_stutes,
+                    has_story: has_stroty),
+                //... name and last message
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Boldtext(name),
+                    Text(last_message),
+                    Text(staus.runtimeType.toString()),
+                  ],
+                ),
+                const Spacer(flex: 20),
+                // ... unseen messages and date time
+                Column(
+                  children: [
+                    staus.name == "delivered"
+                        ? const Icon(Icons.check)
+                        : CircleAvatar(
+                            radius: 16,
+                            backgroundColor: Colors.red.shade100,
+                            child: Boldtext(unseen_messages.toString()),
+                          ),
+                    const SizedBox(height: 4),
+                    Text(DateFormat.yMMMEd().format(last_seen))
+                  ],
+                ),
+                const Spacer(flex: 2),
+              ],
+            ),
           ),
           MyDivider()
         ],
