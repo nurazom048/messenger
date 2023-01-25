@@ -154,26 +154,7 @@ class _MessageScreenState extends State<MessageScreen> {
               child: Column(
                 children: [
                   //... searchbar
-                  Container(
-                    padding: const EdgeInsets.only(top: 5.0),
-                    margin: const EdgeInsets.only(top: 10, bottom: 20),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
-                    width: MediaQuery.of(context).size.width - 20,
-                    child: TextField(
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(
-                              left: 8.0, right: 8, top: 8),
-                          hintText: "Search Anything",
-                          suffixIcon: const Padding(
-                            padding: EdgeInsets.only(right: 9.0),
-                            child: Icon(Icons.search),
-                          ),
-                          border: InputBorder.none),
-                    ),
-                  ),
+                  SearchBar(),
 
                   Container(
                     height: MediaQuery.of(context).size.height - 30,

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, constant_identifier_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -113,6 +113,11 @@ class _CallScreenState extends State<CallScreen> {
                   });
                 },
               ),
+              //....search bar
+              SearchBar(
+                top: 30,
+                bottom: 10,
+              ),
 
               //.... list of All calls
 
@@ -168,6 +173,7 @@ class _CallScreenState extends State<CallScreen> {
 }
 
 //..
+
 class CallBox extends StatelessWidget {
   String name, online_stutes, profile_picture;
   bool has_stroty;

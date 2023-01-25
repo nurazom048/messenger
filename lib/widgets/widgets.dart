@@ -149,3 +149,34 @@ class MyDivider extends StatelessWidget {
     );
   }
 }
+
+//*********** SearchBar ********** */
+class SearchBar extends StatelessWidget {
+  double? top, bottom;
+  SearchBar({
+    Key? key,
+    this.top,
+    this.bottom,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 5.0),
+      margin: EdgeInsets.only(top: top ?? 10, bottom: bottom ?? 20),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      width: MediaQuery.of(context).size.width - 20,
+      child: const TextField(
+        maxLines: 1,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 8.0, right: 8, top: 8),
+          hintText: "Search Anything",
+          suffixIcon: Padding(
+              padding: EdgeInsets.only(right: 9.0), child: Icon(Icons.search)),
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
+}
