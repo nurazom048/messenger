@@ -23,3 +23,20 @@ class Boldtext extends StatelessWidget {
     );
   }
 }
+
+class MyCircularButton extends StatelessWidget {
+  IconData icon;
+  MyCircularButton({
+    required this.icon,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 30,
+      backgroundColor: Colors.blue,
+      child: Icon(icon),
+    );
+  }
+}

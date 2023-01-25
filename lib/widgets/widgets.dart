@@ -5,16 +5,19 @@ import 'package:flutter/material.dart';
 //*************** AccountOptions ***************** */
 
 class AccountOptions extends StatelessWidget {
-  final Widget text;
+  final Widget? text;
   Widget? prefix, sufix;
   IconData? prefixicon;
-  bool? sufixicon = false;
-
+  bool? sufixicon;
+  String? title, subtitle;
   AccountOptions({
-    required this.text,
+    this.text,
+    this.sufixicon = true,
     this.prefixicon,
     this.prefix,
     this.sufix,
+    this.title,
+    this.subtitle,
     super.key,
   });
 
@@ -28,14 +31,26 @@ class AccountOptions extends StatelessWidget {
         prefix ??
             Icon(
               prefixicon,
-              size: 30,
+              size: title != null && subtitle != null ? 42 : 30,
               color: Colors.blue,
             ),
         const Spacer(flex: 1),
-        text,
+        //.. text
+        title != null && subtitle != null
+            ? RichText(
+                text: TextSpan(children: [
+                TextSpan(
+                    text: title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black)),
+                TextSpan(
+                    text: "\n$subtitle",
+                    style: const TextStyle(color: Colors.black54)),
+              ]))
+            : text!,
         const Spacer(flex: 20),
         sufix ?? Container(),
-        sufixicon! == false
+        sufixicon == true
             ? const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.black54,
@@ -113,6 +128,24 @@ class StoryIcon extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class MyDivider extends StatelessWidget {
+  double? thickness;
+  MyDivider({
+    this.thickness,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      height: 26,
+      thickness: thickness ?? .8,
+      endIndent: 25,
+      indent: 25,
     );
   }
 }
