@@ -1,9 +1,17 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:messerger/buttom_items/message_screen.dart';
 import 'package:messerger/widgets/button_and_Text.dart';
+import 'package:messerger/widgets/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 enum MessageStatus { seen, unseen, delivered, sent }
+
+enum CallStatus { Missed_call, Recived_call, Dial_call }
+
+enum Calltype { video, audio }
 
 class CallScreen extends StatefulWidget {
   const CallScreen({super.key});
@@ -13,102 +21,64 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  List<Map<String, dynamic>> chats = [
+  //
+  List<Map<String, dynamic>> calls = [
     {
       "name": "Nur",
       "profile_pictiure":
           "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
-      "last_message": "hello",
       "online_stutes": "online",
-      "unseen_messages": 2,
-      "staus": MessageStatus.seen,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
       "has_stroty": true,
+      "last_call_duration": 2.05,
+      "callstaus": CallStatus.Dial_call,
+      "call_type": Calltype.audio,
+      "call_time": DateTime(2022, 09, 03, 00, 00),
     },
     {
-      "name": "abdul",
+      "name": "Nur",
       "profile_pictiure":
-          "https://thumbs.dreamstime.com/b/handsome-man-portrait-16109015.jpg",
-      "last_message": "busy now",
+          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
       "online_stutes": "online",
-      "unseen_messages": 3,
-      "staus": MessageStatus.delivered,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
       "has_stroty": true,
+      "last_call_duration": 2.05,
+      "callstaus": CallStatus.Recived_call,
+      "call_type": Calltype.audio,
+      "call_time": DateTime(2022, 09, 03, 00, 00),
     },
     {
-      "name": "mazid",
+      "name": "Nur",
       "profile_pictiure":
-          "https://th.bing.com/th/id/R.0569fe35898c34726564915930c54c26?rik=LEvOfSwdzW13PA&pid=ImgRaw&r=0",
-      "last_message": "ok i will try",
-      "online_stutes": "offline",
-      "unseen_messages": 3,
-      "staus": MessageStatus.seen,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
+          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
+      "online_stutes": "online",
       "has_stroty": true,
+      "last_call_duration": 185,
+      "callstaus": CallStatus.Recived_call,
+      "call_type": Calltype.video,
+      "call_time": DateTime(2022, 09, 03, 00, 00),
     },
     {
-      "name": "sabbir",
+      "name": "Nur",
       "profile_pictiure":
-          "https://s-s.huffpost.com/contributors/pax-ahimsa-gethen/headshot.jpg",
-      "last_message": "call me ",
-      "online_stutes": "offline",
-      "unseen_messages": 3,
-      "staus": MessageStatus.delivered,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
-      "has_stroty": false,
+          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
+      "online_stutes": "online",
+      "has_stroty": true,
+      "last_call_duration": 2.05,
+      "callstaus": CallStatus.Missed_call,
+      "call_type": Calltype.audio,
+      "call_time": DateTime(2022, 09, 03, 00, 00),
     },
     //
-    {
-      "name": "Nur",
-      "profile_pictiure":
-          "https://th.bing.com/th/id/OIP.gHYfltewlh8hQERD9UF69AAAAA?pid=ImgDet&rs=1",
-      "last_message": "hello",
-      "online_stutes": "online",
-      "unseen_messages": 2,
-      "staus": MessageStatus.seen,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
-      "has_stroty": true,
-    },
-    {
-      "name": "abdul",
-      "profile_pictiure":
-          "https://thumbs.dreamstime.com/b/handsome-man-portrait-16109015.jpg",
-      "last_message": "busy now",
-      "online_stutes": "online",
-      "unseen_messages": 3,
-      "staus": MessageStatus.delivered,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
-      "has_stroty": true,
-    },
-    {
-      "name": "mazid",
-      "profile_pictiure":
-          "https://th.bing.com/th/id/R.0569fe35898c34726564915930c54c26?rik=LEvOfSwdzW13PA&pid=ImgRaw&r=0",
-      "last_message": "ok i will try",
-      "online_stutes": "offline",
-      "unseen_messages": 3,
-      "staus": MessageStatus.seen,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
-      "has_stroty": true,
-    },
-    {
-      "name": "sabbir",
-      "profile_pictiure":
-          "https://s-s.huffpost.com/contributors/pax-ahimsa-gethen/headshot.jpg",
-      "last_message": "call me ",
-      "online_stutes": "offline",
-      "unseen_messages": 3,
-      "staus": MessageStatus.delivered,
-      "last_Seen": DateTime(2022, 09, 03, 00, 00),
-      "has_stroty": false,
-    },
   ];
 
   int currentindex = 0;
 
   @override
   Widget build(BuildContext context) {
+    //... filter mised call from list
+    final missedCalls = calls
+        .where((call) => call["callstaus"] == CallStatus.Missed_call)
+        .toList();
+    //
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F6),
       body: Container(
@@ -151,26 +121,136 @@ class _CallScreenState extends State<CallScreen> {
                 height: MediaQuery.of(context).size.height - 30,
                 width: MediaQuery.of(context).size.width,
                 child: currentindex == 0
-                    ? const Text("all calls")
+                    ? ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: calls.length,
+                        itemBuilder: ((context, index) {
+                          return CallBox(
+                            name: calls[index]["name"],
+                            profile_picture: calls[index]["profile_pictiure"],
+                            online_stutes: calls[index]["online_stutes"],
+                            has_stroty: calls[index]["has_stroty"],
+                            call_time: calls[index]["call_time"],
+                            last_call_duration: calls[index]
+                                ["last_call_duration"],
+                            callstaus: calls[index]["callstaus"],
+                            calltype: calls[index]["call_type"],
+                          );
+                        }),
+                      )
                     : ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: chats.length,
-                        itemBuilder: ((context, index) => ChatBox(
-                              name: chats[index]["name"],
-                              profile_picture: chats[index]["profile_pictiure"],
-                              has_stroty: chats[index]["has_stroty"],
-                              last_seen: chats[index]["last_Seen"],
-                              online_stutes: chats[index]["online_stutes"],
-                              last_message: chats[index]["last_message"],
-                              staus: chats[index]["staus"],
-                              unseen_messages: chats[index]["unseen_messages"],
-                            )),
+                        itemCount: missedCalls.length,
+                        itemBuilder: ((context, index) {
+                          return CallBox(
+                            name: missedCalls[index]["name"],
+                            profile_picture: missedCalls[index]
+                                ["profile_pictiure"],
+                            online_stutes: missedCalls[index]["online_stutes"],
+                            has_stroty: missedCalls[index]["has_stroty"],
+                            call_time: missedCalls[index]["call_time"],
+                            last_call_duration: missedCalls[index]
+                                ["last_call_duration"],
+                            callstaus: missedCalls[index]["callstaus"],
+                            calltype: missedCalls[index]["call_type"],
+                          );
+                        }),
                       ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+//..
+class CallBox extends StatelessWidget {
+  String name, online_stutes, profile_picture;
+  bool has_stroty;
+
+  CallStatus callstaus;
+  Calltype calltype;
+  dynamic last_call_duration;
+  DateTime call_time;
+
+  CallBox({
+    super.key,
+    required this.name,
+    required this.profile_picture,
+    required this.online_stutes,
+    required this.has_stroty,
+    required this.call_time,
+    required this.last_call_duration,
+    required this.callstaus,
+    required this.calltype,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 3, right: 4),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const Spacer(flex: 2),
+              //...
+              ImageAvater(
+                  profilepicture: profile_picture,
+                  online_stutes: online_stutes,
+                  has_story: has_stroty),
+              //... name and last message
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Boldtext(name),
+                  Row(
+                    children: [
+                      Icon(
+                          calltype.name == "video"
+                              ? Icons.videocam
+                              : Icons.call,
+                          size: 17),
+                      Text(
+                          " ${callstaus.name == "Recived_call" ? last_call_duration : callstaus.name}"),
+                    ],
+                  ),
+                ],
+              ),
+              const Spacer(flex: 20),
+              // ... last call time and icon
+              Column(
+                children: [
+                  callstaus.name == "Missed_call"
+                      ? const Icon(
+                          Icons.phone_callback_sharp,
+                          color: Colors.red,
+                        )
+                      : callstaus.name == "Recived_call"
+                          ? const Icon(
+                              Icons.phone_callback_sharp,
+                              color: Colors.blue,
+                            )
+                          : callstaus.name == "Dial_call"
+                              ? const Icon(
+                                  Icons.call_outlined,
+                                  color: Colors.green,
+                                )
+                              : Container(),
+
+                  const SizedBox(height: 4),
+                  Text(DateFormat.MMMEd().format(call_time)) // last call time
+                ],
+              ),
+              const Spacer(flex: 2),
+            ],
+          ),
+          MyDivider()
+        ],
       ),
     );
   }
