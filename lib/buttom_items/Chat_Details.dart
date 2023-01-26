@@ -208,6 +208,8 @@ class ConversetionBox extends StatelessWidget {
                 previus_time.difference(time).inMinutes == 0
             ? ""
             : " $timeString "),
+
+        //
         Row(
           mainAxisAlignment:
               is_me ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -223,9 +225,10 @@ class ConversetionBox extends StatelessWidget {
                     child: Text(message),
                   ),
                 ),
+
                 Text(previus_time.difference(time).inHours == 0 &&
                         previus_time.difference(time).inMinutes == 0
-                    ? ""
+                    ? " "
                     : DateFormat.Hm().format(time)),
 
                 // // date compear
@@ -240,6 +243,7 @@ class ConversetionBox extends StatelessWidget {
                 //         previus_time.difference(time).inMinutes == 0
                 //     ? "minute and hour match with previus"
                 //     : ""),
+                //
               ],
             ),
           ],
