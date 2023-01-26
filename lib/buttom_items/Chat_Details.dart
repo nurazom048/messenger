@@ -192,13 +192,22 @@ class ConversetionBox extends StatelessWidget {
   DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    String timeString = "";
+
+    //
+    if (previus_time.difference(time).inHours == 0 &&
+        previus_time.difference(time).inMinutes == 0) {
+      timeString = " ${DateFormat.Hm().format(time)} ";
+    } else if (now.difference(time).inDays == 0) {
+      timeString = " ${DateFormat.Hm().format(time)} today";
+    }
     return Column(
       children: [
         /// time
         Text(previus_time.difference(time).inHours == 0 &&
                 previus_time.difference(time).inMinutes == 0
             ? ""
-            : "" + DateFormat.Hm().format(time).toString() + ""),
+            : " $timeString "),
         Row(
           mainAxisAlignment:
               is_me ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -219,18 +228,18 @@ class ConversetionBox extends StatelessWidget {
                     ? ""
                     : DateFormat.Hm().format(time)),
 
-                // date compear
-                Text(now.difference(time).inDays == 0 ? "Todaay" : ""),
+                // // date compear
+                // Text(now.difference(time).inDays == 0 ? "Todaay" : ""),
 
-                Text(previus_time.difference(time).inMinutes == 0
-                    ? "match with previus time"
-                    : ""),
+                // Text(previus_time.difference(time).inMinutes == 0
+                //     ? "match with previus time"
+                //     : ""),
 
-                ///... minute and hour
-                Text(previus_time.difference(time).inHours == 0 &&
-                        previus_time.difference(time).inMinutes == 0
-                    ? "minute and hour match with previus"
-                    : ""),
+                // ///... minute and hour
+                // Text(previus_time.difference(time).inHours == 0 &&
+                //         previus_time.difference(time).inMinutes == 0
+                //     ? "minute and hour match with previus"
+                //     : ""),
               ],
             ),
           ],
