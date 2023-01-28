@@ -34,7 +34,7 @@ class ButomNevBar extends StatefulWidget {
 
 class _ButomNevBarState extends State<ButomNevBar> {
   List<Widget> pages = [CallScreen(), MessageScreen(), AccountScreen()];
-  int currentindex = 0;
+  int currentindex = 1;
 
   @override
   Widget build(BuildContext context) {

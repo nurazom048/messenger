@@ -1,9 +1,7 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:messerger/buttom_items/Chat_Details.dart';
-import 'package:messerger/widgets/button_and_Text.dart';
 import 'package:messerger/widgets/widgets.dart';
 
 enum message_type { text, image, video, audio, file }
@@ -116,6 +114,9 @@ class _ChatDetailsState extends State<ChatDetails> {
                     is_me: conversetion[index]["is_me"],
                     previus_time: conversetion[index == 0 ? 0 : index - 1]
                         ["time"],
+                    last: conversetion[conversetion.length - 1]["time"],
+                    before_last: conversetion[conversetion.length - 2]["time"],
+                    islast: index == conversetion.length - 1,
                   );
                 }),
           ),
@@ -138,12 +139,12 @@ class _ChatDetailsState extends State<ChatDetails> {
                     maxLines: 2,
                     decoration: InputDecoration(
                       contentPadding:
-                          EdgeInsets.only(left: 8.0, right: 8, top: 8),
+                          const EdgeInsets.only(left: 8.0, right: 8, top: 8),
                       hintText: "send message",
                       suffixIcon: Padding(
-                          padding: EdgeInsets.only(right: 9.0),
+                          padding: const EdgeInsets.only(right: 9.0),
                           child: IconButton(
-                            icon: Icon(Icons.send),
+                            icon: const Icon(Icons.send),
                             onPressed: () {
                               print("object");
 
@@ -174,10 +175,11 @@ class _ChatDetailsState extends State<ChatDetails> {
 
 class ConversetionBox extends StatelessWidget {
   String? name;
-  DateTime time, previus_time;
+  DateTime time, previus_time, last, before_last;
   message_type? messagetype;
   String message;
   bool is_me;
+  bool islast;
 
   ConversetionBox({
     this.name,
@@ -186,6 +188,9 @@ class ConversetionBox extends StatelessWidget {
     required this.message,
     required this.is_me,
     required this.previus_time,
+    required this.before_last,
+    required this.last,
+    required this.islast,
     Key? key,
   }) : super(key: key);
 
@@ -195,60 +200,59 @@ class ConversetionBox extends StatelessWidget {
     String timeString = "";
 
     //
-    if (previus_time.difference(time).inHours == 0 &&
-        previus_time.difference(time).inMinutes == 0) {
-      timeString = " ${DateFormat.Hm().format(time)} ";
-    } else if (now.difference(time).inDays == 0) {
-      timeString = " ${DateFormat.Hm().format(time)} today";
-    }
+
     return Column(
       children: [
-        /// time
-        Text(previus_time.difference(time).inHours == 0 &&
-                previus_time.difference(time).inMinutes == 0
-            ? ""
-            : " $timeString "),
-
-        //
+        Text(topTime(previus_time, time, DateTime.now())),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment:
               is_me ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Column(
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.black26),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(message),
-                  ),
-                ),
-
-                Text(previus_time.difference(time).inHours == 0 &&
-                        previus_time.difference(time).inMinutes == 0
-                    ? " "
-                    : DateFormat.Hm().format(time)),
-
-                // // date compear
-                // Text(now.difference(time).inDays == 0 ? "Todaay" : ""),
-
-                // Text(previus_time.difference(time).inMinutes == 0
-                //     ? "match with previus time"
-                //     : ""),
-
-                // ///... minute and hour
-                // Text(previus_time.difference(time).inHours == 0 &&
-                //         previus_time.difference(time).inMinutes == 0
-                //     ? "minute and hour match with previus"
-                //     : ""),
-                //
+                    margin: const EdgeInsets.symmetric(horizontal: 7),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black26),
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(message))),
+                Text(endTime(previus_time, last)) // end time
               ],
             ),
           ],
         ),
       ],
     );
+  }
+
+//..... end time....//
+  String endTime(DateTime previus_time, DateTime last) {
+    // time match with previus and is last
+    if (time.difference(previus_time).inMinutes == 0 &&
+        time.difference(previus_time).inHours == 0 &&
+        islast) {
+      return DateFormat.Hm().format(time);
+    } else if (last.difference(previus_time).inMinutes != 0 &&
+        last.difference(previus_time).inHours != 0 && //
+        islast == true) {
+      return DateFormat.Hm().format(time);
+    } else {
+      return "";
+    }
+  }
+
+  //
+  String topTime(DateTime previusTime, DateTime time, DateTime now) {
+    if (previusTime.difference(time).inHours == 0 &&
+        previusTime.difference(time).inMinutes == 0) {
+      return " ";
+    } else if (now.difference(time).inDays == 0) {
+      return "${DateFormat.Hm().format(time)} today";
+    } else {
+      return DateFormat.Hm().format(time);
+    }
   }
 }
