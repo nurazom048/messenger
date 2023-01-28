@@ -1,7 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:messerger/widgets/button_and_Text.dart';
+import 'package:messerger/widgets/buttons_and_text.dart/button_and_Text.dart';
 import 'package:messerger/widgets/widgets.dart';
 
 class AccountScreen extends StatefulWidget {

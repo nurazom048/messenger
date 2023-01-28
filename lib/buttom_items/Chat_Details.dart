@@ -1,10 +1,10 @@
-// ignore_for_file: camel_case_types, non_constant_identifier_names
+// ignore_for_file: camel_case_types, non_constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:messerger/widgets/widgets.dart';
 
-enum message_type { text, image, video, audio, file }
+import 'package:messerger/widgets/widgets.dart';
+import '../widgets/Coversetion_box.dart';
+import '../widgets/enum .dart';
 
 class ChatDetails extends StatefulWidget {
   String profile_pictiure, name, online_stutes;
@@ -13,13 +13,15 @@ class ChatDetails extends StatefulWidget {
     required this.profile_pictiure,
     required this.name,
     required this.online_stutes,
-  }) {}
+  });
 
   @override
   State<ChatDetails> createState() => _ChatDetailsState();
 }
 
 class _ChatDetailsState extends State<ChatDetails> {
+  // ignore: prefer_final_fields
+  TextEditingController _controller = TextEditingController();
   //
   List<Map<String, dynamic>> conversetion = [
     {
@@ -85,7 +87,6 @@ class _ChatDetailsState extends State<ChatDetails> {
   ];
 
   //
-  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -111,11 +112,11 @@ class _ChatDetailsState extends State<ChatDetails> {
                     message: conversetion[index]["Message"],
                     messagetype: conversetion[index]["message_type"],
                     time: conversetion[index]["time"],
-                    is_me: conversetion[index]["is_me"],
-                    previus_time: conversetion[index == 0 ? 0 : index - 1]
+                    isMe: conversetion[index]["is_me"],
+                    previusTime: conversetion[index == 0 ? 0 : index - 1]
                         ["time"],
                     last: conversetion[conversetion.length - 1]["time"],
-                    before_last: conversetion[conversetion.length - 2]["time"],
+                    beforeLast: conversetion[conversetion.length - 2]["time"],
                     islast: index == conversetion.length - 1,
                   );
                 }),
@@ -146,8 +147,6 @@ class _ChatDetailsState extends State<ChatDetails> {
                           child: IconButton(
                             icon: const Icon(Icons.send),
                             onPressed: () {
-                              print("object");
-
                               //
                               Map<String, dynamic> newMessage = {
                                 "name": "nur",
@@ -170,89 +169,5 @@ class _ChatDetailsState extends State<ChatDetails> {
         ],
       ),
     );
-  }
-}
-
-class ConversetionBox extends StatelessWidget {
-  String? name;
-  DateTime time, previus_time, last, before_last;
-  message_type? messagetype;
-  String message;
-  bool is_me;
-  bool islast;
-
-  ConversetionBox({
-    this.name,
-    required this.time,
-    required this.messagetype,
-    required this.message,
-    required this.is_me,
-    required this.previus_time,
-    required this.before_last,
-    required this.last,
-    required this.islast,
-    Key? key,
-  }) : super(key: key);
-
-  DateTime now = DateTime.now();
-  @override
-  Widget build(BuildContext context) {
-    String timeString = "";
-
-    //
-
-    return Column(
-      children: [
-        Text(topTime(previus_time, time, DateTime.now())),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment:
-              is_me ? MainAxisAlignment.end : MainAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 7),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black26),
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(message))),
-                Text(endTime(previus_time, last)) // end time
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-//..... end time....//
-  String endTime(DateTime previus_time, DateTime last) {
-    // time match with previus and is last
-    if (time.difference(previus_time).inMinutes == 0 &&
-        time.difference(previus_time).inHours == 0 &&
-        islast) {
-      return DateFormat.Hm().format(time);
-    } else if (last.difference(previus_time).inMinutes != 0 &&
-        last.difference(previus_time).inHours != 0 && //
-        islast == true) {
-      return DateFormat.Hm().format(time);
-    } else {
-      return "";
-    }
-  }
-
-  //
-  String topTime(DateTime previusTime, DateTime time, DateTime now) {
-    if (previusTime.difference(time).inHours == 0 &&
-        previusTime.difference(time).inMinutes == 0) {
-      return " ";
-    } else if (now.difference(time).inDays == 0) {
-      return "${DateFormat.Hm().format(time)} today";
-    } else {
-      return DateFormat.Hm().format(time);
-    }
   }
 }
