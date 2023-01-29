@@ -1,10 +1,9 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, prefer_const_constructors, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:messerger/buttom_items/Chat_details.dart';
 import 'package:messerger/buttom_items/call_screen.dart';
+import 'package:messerger/buttom_items/chats_detalis.dart/Chat_Details.dart';
 import 'package:messerger/widgets/buttons_and_text.dart/button_and_Text.dart';
-import 'package:intl/intl.dart';
 import 'package:messerger/widgets/chat_box.dart';
 import 'package:messerger/widgets/widgets.dart';
 

@@ -1,5 +1,6 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, sized_box_for_whitespace
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'enum .dart';
@@ -8,13 +9,15 @@ class ConversetionBox extends StatelessWidget {
   String? name;
   DateTime time, previusTime, last, beforeLast;
   message_type? messagetype;
-  String message;
+  dynamic message;
+  String image;
 
   bool isMe;
   bool islast;
 
   ConversetionBox({
     this.name,
+    required this.image,
     required this.time,
     required this.messagetype,
     required this.message,
@@ -29,11 +32,10 @@ class ConversetionBox extends StatelessWidget {
   DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    //
-
     return Column(
       children: [
         Text(topTime(previusTime, time, DateTime.now())),
+        const SizedBox(height: 40),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment:
@@ -41,15 +43,32 @@ class ConversetionBox extends StatelessWidget {
           children: [
             Column(
               children: [
-                Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 7),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black26),
-                    child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(message))),
-                Text(endTime(previusTime, last)) // end time
+                image != "null"
+                    ? Container(
+                        height: 200, width: 200, //color: Colors.red
+                        child: Image.file(
+                          File(image),
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : Container(),
+                message != "null"
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 7),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black26),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(message)))
+                    : Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 7),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                Text(endTime(previusTime, last)), // end time
               ],
             ),
           ],

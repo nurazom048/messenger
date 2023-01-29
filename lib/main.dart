@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:messerger/buttom_items/Account_screen.dart';
 import 'package:messerger/buttom_items/call_screen.dart';
 import 'package:messerger/buttom_items/message_screen.dart';
+import 'package:messerger/buttom_items/provider.dart/conversetionProvider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +16,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ConversationProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const SafeArea(child: Scaffold(body: ButomNevBar())),
       ),
-      home: const ButomNevBar(),
     );
   }
 }
@@ -33,7 +42,11 @@ class ButomNevBar extends StatefulWidget {
 }
 
 class _ButomNevBarState extends State<ButomNevBar> {
-  List<Widget> pages = [CallScreen(), MessageScreen(), AccountScreen()];
+  List<Widget> pages = [
+    const CallScreen(),
+    const MessageScreen(),
+    const AccountScreen()
+  ];
   int currentindex = 1;
 
   @override
